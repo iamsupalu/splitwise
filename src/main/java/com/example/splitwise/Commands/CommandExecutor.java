@@ -11,9 +11,13 @@ public class CommandExecutor {
     private List<Command> commands;
 
     @Autowired
-    public CommandExecutor(RegisterCommand registerCommand) {
+    public CommandExecutor(RegisterCommand registerCommand,
+                           UpdateProfileCommand updateProfileCommand,
+                           SettleUpCommand settleUpCommand) {
         commands=new ArrayList<>();
         commands.add(registerCommand);
+        commands.add(updateProfileCommand);
+        commands.add(settleUpCommand);
     }
 
     public void execute(String inp){

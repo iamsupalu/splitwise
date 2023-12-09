@@ -1,14 +1,14 @@
 package com.example.splitwise.service;
 
 import com.example.splitwise.exceptions.UserAlreadyExistsException;
-import com.example.splitwise.exceptions.UserNotExistsException;
+import com.example.splitwise.exceptions.UserNotFoundException;
 import com.example.splitwise.models.User;
 import com.example.splitwise.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class UserService {
     UserRepository userRepository;
-
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -22,16 +22,20 @@ public class UserService {
             user.setPhone(phone);
             user.setName(name);
             user.setPassword(password);
-            return userRepository.saveUser(user);
+            System.out.println(user);
+            return userRepository.save(user);
         }
     }
 
-    public User updatePassword(String phone,String password) throws UserNotExistsException {
-        if(userRepository.findUserByPhone(phone).isPresent()){
-            throw new UserNotExistsException();
+    public User updatePassword(int userId,String password) throws UserNotFoundException {
+        if(userRepository.findUserById(userId).isEmpty()){
+            throw new UserNotFoundException();
         }
         else{
-            return userRepository.updatePassword(password);
+            User user=userRepository.findUserById(userId).get();
+            user.setPassword(password);
+            userRepository.save(user);
+            return user;
         }
     }
 }

@@ -22,7 +22,6 @@ public class SplitwiseApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		while(true){
 			String input=sc.nextLine();
-			System.out.println(input);
 			commandExecutor.execute(input);
 		}
 	}
